@@ -3,7 +3,7 @@ class RfcGenerated < ActiveRecord::Base
     name        = rfc_data[:name].parameterize
     last_name   = rfc_data[:last_name].parameterize
     s_last_name = rfc_data[:second_last_name].parameterize
-    birthdate   = rfc_data[:birthdate].to_datetime
+    birthdate   = rfc_data[:birthdate].to_date
     rfc_array   = Array.new
 
     #===========LAST_NAME===========#
@@ -40,5 +40,10 @@ class RfcGenerated < ActiveRecord::Base
 
   def self.validate_blank_params api_params
     api_params[:name].blank? || api_params[:last_name].blank? || api_params[:birthdate].blank? ?  true : false
+  end
+
+  def self.validate_birthdate birthdate_param
+    date = (birthdate_param.to_date rescue nil)
+    return date
   end
 end

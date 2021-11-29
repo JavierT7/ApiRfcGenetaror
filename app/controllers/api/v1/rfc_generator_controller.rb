@@ -1,7 +1,11 @@
 class Api::V1::RfcGeneratorController < ActionController::API
 
   def generate_rfc
-    unless RfcGenerated.validate_blank_params api_params
+    if RfcGenerated.validate_blank_params api_params
+      render json: {status: 400, data: {message: 'Missing param values'}}
+    elsif RfcGenerated.validate_birthdate(api_params[:birthdate]).nil?
+      render json: {status: 400, data: {message: 'Invalid date'}}
+    else
       rfc_array     = RfcGenerated.generate_rfc api_params
       rfc           = rfc_array.join(',').gsub(',','').upcase
       rfc_existence = RfcGenerated.find_by(rfc: rfc)
@@ -21,8 +25,6 @@ class Api::V1::RfcGeneratorController < ActionController::API
           render json: {status: 400, data: {message: rfc_generated.errors}}
         end
       end
-    else
-      render json: {status: 400, data: {message: 'Missing param values'}}
     end
   end
 

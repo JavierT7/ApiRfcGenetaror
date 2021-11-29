@@ -17,6 +17,21 @@ RSpec.describe 'Generate rfc requests', type: :request do
   end
 
   describe 'POST /api/v1/generate_rfc' do
+    it  'returns success with empty second_last_name ' do
+      post('/api/v1/generate_rfc', params:{
+          data:{
+              name:             "Francisco",
+              last_name:        "Torres",
+              second_last_name: "",
+              birthdate:        "1995-11-07"
+          }
+      })
+      json = JSON.parse(response.body)
+      expect(json['status']).to eql(200)
+    end
+  end
+
+  describe 'POST /api/v1/generate_rfc' do
     it  'returns error with empty params' do
       post('/api/v1/generate_rfc', params:{
           data:{
@@ -24,6 +39,21 @@ RSpec.describe 'Generate rfc requests', type: :request do
               last_name:        "Torres",
               second_last_name: "",
               birthdate:        "1995-11-07"
+          }
+      })
+      json = JSON.parse(response.body)
+      expect(json['status']).to eql(400)
+    end
+  end
+
+  describe 'POST /api/v1/generate_rfc' do
+    it  'returns error with invalid date in params' do
+      post('/api/v1/generate_rfc', params:{
+          data:{
+              name:             "Javier",
+              last_name:        "Torres",
+              second_last_name: "",
+              birthdate:        "35-13-2020"
           }
       })
       json = JSON.parse(response.body)

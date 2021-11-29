@@ -39,6 +39,6 @@ class RfcGenerated < ActiveRecord::Base
   end
 
   def self.validate_blank_params api_params
-    api_params[:name].blank? || api_params[:last_name].blank? || api_params[:second_last_name].blank? || api_params[:birthdate].blank? ?  true : false
+    api_params[:name].blank? || api_params[:last_name].blank? || api_params[:birthdate].blank? ?  true : false
   end
 end

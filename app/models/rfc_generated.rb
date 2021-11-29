@@ -37,4 +37,8 @@ class RfcGenerated < ActiveRecord::Base
 
     return rfc_array
   end
+
+  def self.validate_blank_params api_params
+    api_params[:name].blank? || api_params[:last_name].blank? || api_params[:second_last_name].blank? || api_params[:birthdate].blank? ?  true : false
+  end
 end
